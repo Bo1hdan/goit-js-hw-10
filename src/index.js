@@ -1,10 +1,4 @@
-const KEY =
-  'live_8QjjUmIRqGSnq4m68ylIdFIUcFSVUVdy1OZfVH8pZFuGkwMgDaeJNDiZOCxNc6HJ';
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
-import SlimSelect from 'slim-select';
-new SlimSelect({
-  select: '#selectElement',
-});
 
 const breedSelect = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
