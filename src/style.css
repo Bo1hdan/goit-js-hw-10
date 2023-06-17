@@ -1,0 +1,38 @@
+.cat-info {
+  width: 1058px;
+  margin: 0 auto;
+}
+ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+img {
+  width: 480px;
+}
+ul,
+li {
+  list-style: none;
+}
+span {
+  font-size: 25px;
+  font-weight: 700;
+}
+.loader {
+  display: none;
+}
+
+.show-loader {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+.error {
+  display: none;
+}
+
+.show-error {
+  display: block;
+}

@@ -1,6 +1,10 @@
 const KEY =
   'live_8QjjUmIRqGSnq4m68ylIdFIUcFSVUVdy1OZfVH8pZFuGkwMgDaeJNDiZOCxNc6HJ';
-import { fetchBreeds } from './cat-api.js';
+import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
+import SlimSelect from 'slim-select';
+new SlimSelect({
+  select: '#selectElement',
+});
 
 const breedSelect = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
@@ -16,29 +20,31 @@ fetchBreeds()
       option.textContent = breed.name;
       breedSelect.appendChild(option);
     });
+
+    loader.classList.add('hidden');
   })
   .catch(error => {
     console.error(error);
+    error.classList.remove('hidden');
+    loader.classList.add('hidden');
   });
 
 breedSelect.addEventListener('change', e => {
   selectedBreedId = e.currentTarget.value;
-  fetchCatByBreed(selectedBreedId);
-});
 
-function fetchCatByBreed(breedId) {
-  fetch(
-    `https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&api_key=${KEY}`
-  )
-    .then(response => response.json())
-    .then(data => {
-      const cat = data[0]; // Отримання першого елементу масиву котів
-      const breed = cat.breeds[0]; // Отримання першої породи кота
+  loader.classList.remove('hidden');
+  error.classList.add('hidden');
 
-      const temperament = breed.temperament;
-      console.log('Temperament:', temperament);
+  fetchCatByBreed(selectedBreedId)
+    .then(breedCard => {
+      aboutCat.innerHTML = breedCard;
+      aboutCat.classList.remove('hidden');
+      loader.classList.add('hidden');
+      error.classList.add('hidden');
     })
     .catch(error => {
       console.log(error);
+      loader.classList.add('hidden');
+      error.classList.remove('hidden');
     });
-}
+});
