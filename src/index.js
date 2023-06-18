@@ -1,8 +1,8 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 
 const breedSelect = document.querySelector('.breed-select');
-const loader = document.querySelector('.loader');
-const error = document.querySelector('.error');
+const loaderP = document.querySelector('.loader');
+const errorP = document.querySelector('.error');
 const aboutCat = document.querySelector('.cat-info');
 let selectedBreedId = null;
 
@@ -14,31 +14,34 @@ fetchBreeds()
       option.textContent = breed.name;
       breedSelect.appendChild(option);
     });
-
-    loader.classList.add('hidden');
   })
   .catch(error => {
     console.error(error);
-    error.classList.remove('hidden');
-    loader.classList.add('hidden');
+    errorP.classList.add('show-error');
   });
 
 breedSelect.addEventListener('change', e => {
   selectedBreedId = e.currentTarget.value;
 
-  loader.classList.remove('hidden');
-  error.classList.add('hidden');
+  errorP.classList.remove('show-error');
+
+  aboutCat.classList.add('hidden');
+  loaderP.classList.add('show-loader');
+
+  breedSelect.classList.add('hidden');
 
   fetchCatByBreed(selectedBreedId)
     .then(breedCard => {
       aboutCat.innerHTML = breedCard;
       aboutCat.classList.remove('hidden');
-      loader.classList.add('hidden');
-      error.classList.add('hidden');
     })
     .catch(error => {
-      console.log(error);
-      loader.classList.add('hidden');
-      error.classList.remove('hidden');
+      console.error(error);
+      errorP.classList.add('show-error');
+    })
+    .finally(() => {
+      loaderP.classList.remove('show-loader');
+
+      breedSelect.classList.remove('hidden');
     });
 });
